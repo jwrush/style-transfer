@@ -304,7 +304,7 @@ class StyleTransfer(object):
         null_fds = os.open(os.devnull, os.O_RDWR)
         out_orig = os.dup(2)
         os.dup2(null_fds, 2)
-        net = caffe.Net(model_file, pretrained_file, caffe.TEST)
+        net = caffe.Net(str(model_file), str(pretrained_file), caffe.TEST)
         os.dup2(out_orig, 2)
         os.close(null_fds)
 
@@ -437,9 +437,9 @@ class StyleTransfer(object):
         # compute data bounds
         data_min = -self.transformer.mean["data"][:,0,0]
         data_max = data_min + self.transformer.raw_scale["data"]
-        data_bounds = [(data_min[0], data_max[0])]*(img0.size/3) + \
-                      [(data_min[1], data_max[1])]*(img0.size/3) + \
-                      [(data_min[2], data_max[2])]*(img0.size/3)
+        data_bounds = [(data_min[0], data_max[0])] * int(img0.size / 3) + \
+                      [(data_min[1], data_max[1])] * int(img0.size / 3) + \
+                      [(data_min[2], data_max[2])] * int(img0.size / 3)
 
         # optimization params
         grad_method = "L-BFGS-B"
